@@ -22,6 +22,7 @@
     "config": "^3.3.6",
     "discord.js": "^12.5.1",
     "everpolate": "0.0.3",
+    "express": "^4.17.1",
     "luxon": "^1.26.0",
     "mcproxy": "git+https://github.com/rob9315/mcproxy.git",
     "minecraft-protocol": "^1.24.1",

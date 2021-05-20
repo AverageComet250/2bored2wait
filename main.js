@@ -3,6 +3,8 @@ const jsonminify = require("node-json-minify"); // to remove comments from the c
 const fs = require('fs');
 const mc = require('minecraft-protocol'); // to handle minecraft login session
 const webserver = require('./webserver/webserver.js'); // to serve the webserver
+const new_webserver = require('./new-webserver/webserver.js') // new webserver, above import will be replaced with this;
+const express = require('express');
 const opn = require('open'); //to open a browser window
 const discord = require('discord.js');
 const {DateTime} = require("luxon");
@@ -142,19 +144,30 @@ var doing;
 let interval = {};
 let queueStartPlace;
 let queueStartTime;
-webserver.restartQueue = config.get("reconnect.notConnectedQueueEnd");
-webserver.onstart(() => { // set up actions for the webserver
-	startQueuing();
-});
-webserver.onstop(() => {
-	stopQueing();
-});
-if (config.get("webserver")) {
-	let webPort = config.get("ports.web");
-	webserver.createServer(webPort, config.get("address.web")); // create the webserver
-	webserver.password = config.password
-	if(config.get("openBrowserOnStart")) opn('http://localhost:' + webPort); //open a browser window
-}
+
+// Below is code for the old webserver, which will be replaced
+
+// webserver.restartQueue = config.get("reconnect.notConnectedQueueEnd");
+// webserver.onstart(() => { // set up actions for the webserver
+// 	startQueuing();
+// });
+// webserver.onstop(() => {
+// 	stopQueing();
+// });
+// if (config.get("webserver")) {
+// 	let webPort = config.get("ports.web");
+// 	webserver.createServer(webPort, config.get("address.web")); // create the webserver
+// 	webserver.password = config.password
+// 	if(config.get("openBrowserOnStart")) opn('http://localhost:' + webPort); //open a browser window
+// }
+
+let webport = config.get("ports.web");
+
+app.use('/', new_webserver);
+
+app.listen(webport);
+if(config.get("openBrowserOnStart")) opn('http://localhost:' + webport); //open a browser window
+
 // lets
 let proxyClient; // a reference to the client that is the actual minecraft game
 let client; // the client to connect to 2b2t

@@ -81,6 +81,7 @@ const askForSecrets = async () => {
 		canSave = true;
 		discordBotToken = await promisedQuestion("BotToken, leave blank if not using discord []: ");
 		localConf.BotToken = discordBotToken;
+		config.discordBot = discordBotToken !== "" ? false : config.get("discordBot");
 	}
 
 	if(canSave) {
@@ -93,8 +94,6 @@ const askForSecrets = async () => {
 		};
 		console.clear();
 	}
-
-        config.discordBot = discordBotToken !== "" ? false : config.get("discordBot");
 	if (config.get("discordBot")) {
 		dc = new discord.Client();
 		dc.login(discordBotToken).catch(()=>{

@@ -24,6 +24,8 @@ try {
 		process.exit(1);
 	}
 }
+
+var app = express();
 var mc_username;
 var mc_password;
 var updatemessage;
